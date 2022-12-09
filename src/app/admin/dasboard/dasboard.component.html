@@ -1,0 +1,98 @@
+<app-header></app-header>
+<div class="row">
+    <div class="col-2">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-10">
+
+        <div class="cardsrow row">
+            <div class="col-md-3 cardscol" style="cursor:pointer;">
+                <mat-card class="card">
+                    <div class="row">
+                        <div class="col-md-10 carddetailsection">
+                            <div class="cardtext">
+                                <h4>Total Users</h4>
+                            </div>
+                            <div class="cardquantity">
+                                <h6>{{totalTasks ? totalTasks:0}}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-2 cardicondiv">
+                            <span class="material-icons card-icon">people_outline</span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-3 cardscol" style="cursor:pointer;">
+                <mat-card class="card">
+                    <div class="row">
+                        <div class="col-md-10 carddetailsection">
+                            <div class="cardtext">
+                                <h4>Total Tasks</h4>
+                            </div>
+                            <div class="cardquantity">
+                                <h6>{{totalUsers}}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-2 cardicondiv">
+                            <span class="material-icons card-icon">task</span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <!-- <div class="col-md-3 cardscol" style="cursor:pointer;">
+                <mat-card class="card">
+                    <div class="row">
+                        <div class="col-md-10 carddetailsection">
+                            <div class="cardtext">
+                                <h4>Total Payment</h4>
+                            </div>
+                            <div class="cardquantity">
+                                <h6>5</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-2 cardicondiv">
+                            <span class="material-icons card-icon">payments</span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div> -->
+            <div class="col-md-3 cardscol" style="cursor:pointer;">
+                <mat-card class="card">
+                    <div class="row">
+                        <div class="col-md-10 carddetailsection">
+                            <div class="cardtext">
+                                <h4>Total Feedbacks</h4>
+                            </div>
+                            <div class="cardquantity">
+                                <h6>{{totalFeedbacks}}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-2 cardicondiv">
+                            <span class="material-icons card-icon">rate_review</span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-3 cardscol" style="cursor:pointer;">
+                <mat-card class="card">
+                    <div class="row">
+                        <div class="col-md-10 carddetailsection">
+                            <div class="cardtext">
+                                <h4>Failed Orders</h4>
+                            </div>
+                            <div class="cardquantity">
+                                <h6>{{totalFailed}}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-2 cardicondiv">
+                            <span class="material-icons card-icon">sms_failed</span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

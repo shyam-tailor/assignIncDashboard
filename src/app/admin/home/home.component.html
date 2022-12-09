@@ -1,0 +1,372 @@
+<!-- Button to clear selection
+<button (click)="clearSelection()">Clear Selection</button> -->
+<!-- AG Grid Angular Component -->
+
+<app-header></app-header>
+
+<div class="row">
+  <div class="col-2 side_box">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="col-10 table_box">
+    <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o" style="font-size:48px;color:blue"></i></button>
+    <div class="row addBtn">
+      <button type="button" class="btn btn-primary addTaskBtn"
+        (click)="openModal(addTasktTemplate, null,'addTemplate')">Add
+        Task</button>
+    </div>
+
+    <br>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%" *ngIf="taskData.length>0">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description.slice(0,50)+ '...'}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="assigner">
+        <th mat-header-cell *matHeaderCellDef> Assigner </th>
+        <td mat-cell *matCellDef="let element"> {{element.assigner}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> Score </th>
+        <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="words">
+        <th mat-header-cell *matHeaderCellDef> Words </th>
+        <td mat-cell *matCellDef="let element"> {{element.words}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost_to_company">
+        <th mat-header-cell *matHeaderCellDef> Cost to Company </th>
+        <td mat-cell *matCellDef="let element"> {{element.cost_to_company}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost_to_freelance">
+        <th mat-header-cell *matHeaderCellDef> Cost to Freelancer </th>
+        <td mat-cell *matCellDef="let element"> {{element.cost_to_freelance}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="deadline">
+        <th mat-header-cell *matHeaderCellDef> Deadline </th>
+        <td mat-cell *matCellDef="let element"> {{element.deadline.split('T')[0]}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="remaingTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Timeline </th>
+        <td mat-cell *matCellDef="let element">
+          {{getTaskCountdown(element) | async}}
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="remaingTime">
+        <th mat-header-cell *matHeaderCellDef> Time Remaining </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="wrapper">
+            <div class="times">
+              <p class="p-r-10">Days {{element.timeline_days}}</p>
+              <p class="p-r-10">Hours {{element.timeline_hours}}</p>
+              <p class="p-r-10">Minutes {{element.timeline_minute}}</p>
+              <p class="p-r-10">Seconds {{element.timeline_seconds}}</p>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accepted">
+        <th mat-header-cell *matHeaderCellDef> Accept </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+          <span *ngIf="element.accepted!='Not Accepted'">{{element.accepted}}</span>
+          <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn btn-primary addTaskBtn"
+            (click)="acceptTask(i)">Accept</button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="file">
+        <th mat-header-cell *matHeaderCellDef> File </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+          <a><span class="material-icons card-icon" (click)="downloadFile(element.id)">download</span></a>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="viewtask">
+        <th mat-header-cell *matHeaderCellDef> Task Description </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+
+          <div class="row">
+            <button type="button" class="btn btn-primary addTaskBtn"
+              (click)="openModal(viewTaskTemplate, i,'viewTemplate')">View Task Description</button>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="edittask">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+
+          <div class="row">
+            <button type="button" class="btn btn-primary addTaskBtn"
+              (click)="openModal(editTaskTemplate, i,'editTemplate');editTaskModal(element)">Edit Task</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="accepted" >
+        <th mat-header-cell *matHeaderCellDef> accepted </th>
+        <td mat-cell *matCellDef="let element">
+         
+        </td>
+      </ng-container> -->
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="taskData.length==0">
+      <h3 class="text-center" style="color:'#0b2c4eed';">No Data Found</h3>
+    </div>
+    <!-- <ag-grid-angular style="width: 100%; height: 1000px" class="ag-theme-alpine" [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef" [rowData]="rowData$ | async" [rowSelection]="'multiple'" [animateRows]="true"
+      (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)">
+    </ag-grid-angular> -->
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+
+<ng-template #addTasktTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Task</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="AddmodalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="main_login_form" [formGroup]="TaskForm" novalidate="">
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Task Title</mat-label>
+            <input matInput placeholder="Enter Title" formControlName="title">
+          </mat-form-field>
+
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Details</mat-label>
+            <textarea matInput placeholder="Task Details" formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-select formControlName="username">
+              <mat-option disabled value="null">
+                Select Assignee
+              </mat-option>
+              <mat-option *ngFor="let item of usersData" [value]="item.username">
+                {{item.firstname}} {{item.lastname}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-select formControlName="assigner">
+              <mat-option disabled value="null">
+                Select Assigner
+              </mat-option>
+              <mat-option *ngFor="let item of usersData" [value]="item.username">
+                {{item.firstname}} {{item.lastname}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Score</mat-label>
+            <input matInput type='number' formControlName="score">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>No Of Words</mat-label>
+            <input matInput type='number' formControlName="words">
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Cost To Company</mat-label>
+            <input matInput placeholder="Cost to Company" formControlName="cost_to_company">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Cost To Freelancer</mat-label>
+            <input matInput placeholder="Cost to Freeancer" formControlName="cost_to_freelance">
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Choose a deadline</mat-label>
+            <input matInput type="date" [matDatepicker]="picker" formControlName="deadline">
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <input (change)="onFileSelected($event)" #fileInput type="file" id="file" formControlName="file">
+        </div>
+
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-select formControlName="status">
+              <mat-option disabled value="null">
+                Select Status
+              </mat-option>
+              <mat-option *ngFor="let item of statusData" [value]="item.value">
+                {{item.status}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-12 col-md-12 btn-container d-flex flex-row-reverse">
+          <button type="button" class="btn btn-primary float-right" (click)="addTask()">Submit</button>
+          <button type="button" class="btn btn-secondary float-right" (click)="AddmodalRef?.hide()">Cancel</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editTaskTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Task</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="editmodalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="main_login_form" [formGroup]="EditTaskForm" novalidate="">
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Task Title</mat-label>
+            <input matInput placeholder="Enter Title" formControlName="title">
+          </mat-form-field>
+
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Details</mat-label>
+            <textarea matInput placeholder="Task Details" formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Assignee</mat-label>
+            <input matInput placeholder="Enter Assignee" formControlName="username">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Assigner</mat-label>
+            <input matInput placeholder="Enter Assigner" formControlName="assigner">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Score</mat-label>
+            <input matInput type='number' formControlName="score">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>No Of Words</mat-label>
+            <input matInput type='number' formControlName="words">
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Cost To Company</mat-label>
+            <input matInput placeholder="Cost to Company" formControlName="cost_to_company">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Cost To Freelancer</mat-label>
+            <input matInput placeholder="Cost to Freeancer" formControlName="cost_to_freelance">
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-label>Choose a deadline</mat-label>
+            <input matInput formControlName="deadline">
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-12 col-md-12">
+          <input (change)="onFileSelected($event)" #fileInput type="file" id="file" formControlName="file">
+        </div> -->
+
+        <div class="col-12 col-md-12">
+          <mat-form-field>
+            <mat-select formControlName="status">
+              <mat-option disabled value="null">
+                Select Status
+              </mat-option>
+              <mat-option *ngFor="let item of statusData" [value]="item.value">
+                {{item.status}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-12 col-md-12 btn-container d-flex flex-row-reverse">
+          <button type="button" class="btn btn-primary float-right" (click)="editTask()">Update</button>
+          <button type="button" class="btn btn-secondary float-right" (click)="editmodalRef?.hide()">Cancel</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+
+<ng-template #viewTaskTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">View Task</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="ViewmodalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{taskDescription}}
+    </p>
+  </div>
+</ng-template>

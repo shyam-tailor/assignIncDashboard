@@ -1,0 +1,41 @@
+<div class="main__container">
+    <div class="login-card">
+        <main class="login-content">
+            <span class="login-header">SignUp</span>
+            <span class="message">{{signupMessage}}</span>
+            <!-- login form -->
+            <form class="login-form">
+                <input type="email" [(ngModel)]="username" autofocus placeholder="Email" name="email"
+                    class="login-input" required>
+                <input type="text" [(ngModel)]="firstname" autofocus placeholder="Firstname" name="firstname"
+                    class="login-input" required>
+                <input type="text" [(ngModel)]="lastname" autofocus placeholder="Lastname" name="lastname"
+                    class="login-input" required>
+                <input type="date" [(ngModel)]="dob" autofocus placeholder="DOB" name="dob" class="login-input"
+                    required>
+                <input type="password" [(ngModel)]="password" placeholder="Password" name="password" class="login-input"
+                    minlength="6" required>
+                <select name="role" id="role" [(ngModel)]="role" class="login-input">
+                    <option value="employee">
+                        Employee
+                    </option>
+                    <option value="freelancer">
+                        Freelancer
+                    </option>
+                </select>
+                <input type="submit" (click)="register()" name="submit" value="Register" class="login-btn">
+            </form>
+            <div class="signup-link-wrapper">
+                <span class="signup-notice">If Already Registered</span>
+                <a class="signup-link" href="/login">Login</a>
+            </div>
+        </main>
+
+        <!-- linking to signup -->
+        <aside class="login-aside">
+            <div class="login-aside-overlay"></div>
+            <h1 class="login-welcome-text">Welcome Back!</h1>
+            <hr class="login-aside-hr">
+        </aside>
+    </div>
+</div>

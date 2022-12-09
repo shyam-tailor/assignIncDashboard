@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="row">
+    <div class="col-2 side_box">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-10">
+        <div class="row addBtn">
+            <button type="button" class="btn btn-primary addTaskBtn" (click)="openModal(addFeedbacktemplate)">Add
+                Feedback</button>
+        </div>
+
+        <br>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%">
+
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef> Task Title </th>
+                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Task Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+            <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef>Task Owner</th>
+                <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+            </ng-container>
+            <ng-container matColumnDef="feedback">
+                <th mat-header-cell *matHeaderCellDef> Feedback </th>
+                <td mat-cell *matCellDef="let element"> {{element.feedback_title}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>
+
+<app-footer></app-footer>
+
+<ng-template #addFeedbacktemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Feedback</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close"
+            (click)="AddFeedbackModalRef?.hide()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="main_login_form" [formGroup]="FeedbackForm" novalidate="">
+            <div class="row">
+                <div class="col-12 col-md-12">
+                    <mat-form-field>
+                        <mat-label>Task</mat-label>
+                        <mat-select formControlName="task_id">
+                            <mat-option *ngFor="let item of taskData" [value]="item.id">
+                                {{item.title}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-12">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Leave a Feedback</mat-label>
+                        <textarea matInput placeholder="Enter Feedback Here..."
+                            formControlName="feedback_title"></textarea>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="col-12 col-md-12 btn-container d-flex flex-row-reverse">
+                    <button type="button" class="btn btn-primary float-right" (click)="addFeedback()">Submit</button>
+                    <button type="button" class="btn btn-secondary float-right">Cancel</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</ng-template>

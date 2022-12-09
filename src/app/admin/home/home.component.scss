@@ -1,0 +1,25 @@
+.side_box {
+    padding-left: 0px;
+    padding-left: 0px;
+}
+
+.addBtn {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.addBtn>button {
+    width: 10%;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.times {
+    display: flex;
+    justify-content: space-around;
+}
+
+.table_box {
+    overflow-x: scroll;
+}

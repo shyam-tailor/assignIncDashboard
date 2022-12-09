@@ -1,0 +1,36 @@
+<app-header></app-header>
+
+<div class="row">
+    <div class="col-2 side_box">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-10">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%"
+            *ngIf="feedbackData.length>0">
+
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef> Task Title </th>
+                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Task Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+            <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef>Task Owner</th>
+                <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+            </ng-container>
+            <ng-container matColumnDef="feedback">
+                <th mat-header-cell *matHeaderCellDef> Feedback </th>
+                <td mat-cell *matCellDef="let element"> {{element.feedback_title}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div *ngIf="feedbackData.length==0">
+            <h3 class="text-center" style="color:'#0b2c4eed';">No Data Found</h3>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

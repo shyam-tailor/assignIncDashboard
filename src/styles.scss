@@ -1,0 +1,315 @@
+/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+
+.main__container {
+  min-height: 90vh;
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.login-card {
+  position: relative;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 85%;
+  min-height: 80vh;
+  animation: fadein 1s ease-in-out;
+}
+
+.login-header {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 4rem;
+  color: #0b2c4eed;
+  letter-spacing: 0.2rem;
+  font-weight: bold;
+  animation: fadein 1.75s ease-in-out;
+  text-transform: uppercase;
+}
+
+.login-content {
+  flex: 2 2;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadein 1.5s ease-in-out;
+  min-height: 100%;
+}
+
+.login-form {
+  display: flex;
+  flex-flow: column;
+  width: 80%;
+  align-items: center;
+  animation: slidedown 2s ease-in-out;
+}
+
+// https: //source.unsplash.com/random/1200x900?content-writing"
+.login-aside {
+  animation: fadein 2.25s ease-in-out;
+  flex: 3 3;
+  display: flex;
+  justify-content: flex-end;
+  flex-flow: column;
+  min-height: 100%;
+  border-radius: 0 10px 10px 0;
+  background-image: url("./assets/content.jpg") !important;
+  background-size: cover;
+  position: relative;
+}
+
+.login-aside-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0 10px 10px 0;
+}
+
+.login-aside-hr {
+  height: 0.5rem;
+  width: 8rem;
+  border: none;
+  outline: none;
+  background-color: white;
+  position: relative;
+  z-index: 5;
+  margin: 0 0 8rem 3rem;
+  animation: slideright 4s ease-out;
+}
+
+.login-welcome-text {
+  color: white;
+  letter-spacing: 0.03rem;
+  margin: 0 0 2rem 3rem;
+  font-size: 2.75rem;
+  position: relative;
+  z-index: 5;
+  animation: slideright 2s ease-out;
+}
+
+.login-input {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 0rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 1rem rgba(0, 0, 255, 0.3);
+  width: 90%;
+}
+
+
+.login-btn {
+  background-color: transparent;
+  padding: 1rem;
+  border-radius: 4rem;
+  outline: none;
+  border: none;
+  color: black;
+  font-size: 1.7rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  width: 38%;
+  box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+}
+
+.login-btn:hover {
+  /* background: linear-gradient(to right, #03a9f4, #00ff9b); */
+  background: #0b2c4eed;
+  color: white;
+}
+
+.login-input::placeholder {
+  color: #39437a;
+  font-size: 1.5rem;
+}
+
+.btn-disabled {
+  background-color: lightgray;
+}
+
+.btn-disabled:hover {
+  background: lightgray;
+}
+
+
+.signup-link-wrapper {
+  margin-top: 3rem;
+  animation: slideup 1s ease-in-out;
+}
+
+.signup-link {
+  text-transform: uppercase;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: #0b2c4eed;
+  margin-left: 1rem;
+}
+
+.signup-link:hover {
+  text-decoration: none;
+}
+
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+
+.row {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+.profile_username {
+  font-size: 14px !important;
+}
+
+.profile_desig {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 942 !important;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 960 !important;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+}
+
+mat-form-field {
+  width: 100% !important;
+}
+
+.addTaskBtn {
+  background-color: #0b2c4eed;
+  color: white;
+}
+
+.addBtn {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.addBtn>button {
+  width: 10%;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+th.mat-header-cell {
+  padding: 0 15px 0 15px !important
+}
+
+.mat-cell,
+.mat-footer-cell {
+  padding: 0 15px 0 15px !important
+}
+
+.count-down-timer {
+  box-shadow: 2px 6px 9px 2px rgb(0 0 0 / 20%);
+  text-align: center;
+  background-color: #313b3f;
+  max-width: 400px;
+  margin: 20px auto;
+  color: #d9a74a;
+  border-radius: 6px;
+  padding: 10px;
+  font-family: sans-serif;
+
+  p {
+    margin: 5px 0 15px 0;
+  }
+
+  .wrapper {
+
+    .description,
+    .times {
+      display: flex;
+      justify-content: space-around;
+      grid-template-columns: repeat(4, calc(25% - 8px));
+      grid-column-gap: 10px;
+    }
+
+    .description {
+      >p {
+        margin: 0;
+        font: normal 14px sans-serif;
+      }
+    }
+
+    .times {
+      p {
+        letter-spacing: -5px;
+        position: relative;
+        margin: 0;
+        font: normal 50px courier, sans-serif;
+
+        ::ng-deep img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 30px;
+          display: block;
+          height: 30px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .count-down-timer {
+    margin: 20px;
+  }
+}

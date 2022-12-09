@@ -1,0 +1,221 @@
+<!-- Button to clear selection
+<button (click)="clearSelection()">Clear Selection</button> -->
+<!-- AG Grid Angular Component -->
+
+<app-header></app-header>
+
+<div class="row p-b-20">
+  <div class="col-2">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="col-10 table_box">
+    <div class="cardsrow row">
+      <div class="col-md-3 cardscol" style="cursor:pointer;">
+        <mat-card class="card">
+          <div class="row">
+            <div class="col-md-10 carddetailsection">
+              <div class="cardtext">
+                <h4>Total Words</h4>
+              </div>
+              <div class="cardquantity">
+                <h6>{{totalWords}}</h6>
+              </div>
+            </div>
+            <div class="col-md-2 cardicondiv">
+              <span class="material-icons card-icon">password</span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-3 cardscol" style="cursor:pointer;">
+        <mat-card class="card">
+          <div class="row">
+            <div class="col-md-10 carddetailsection">
+              <div class="cardtext">
+                <h4>Total Payment</h4>
+              </div>
+              <div class="cardquantity">
+                <h6>{{totalPayment}}</h6>
+              </div>
+            </div>
+            <div class="col-md-2 cardicondiv">
+              <span class="material-icons card-icon">payments</span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <!-- <div class="col-md-3 cardscol" style="cursor:pointer;">
+                    <mat-card class="card">
+                        <div class="row">
+                            <div class="col-md-10 carddetailsection">
+                                <div class="cardtext">
+                                    <h4>Total Payment</h4>
+                                </div>
+                                <div class="cardquantity">
+                                    <h6>5</h6>
+                                </div>
+                            </div>
+                            <div class="col-md-2 cardicondiv">
+                                <span class="material-icons card-icon">payments</span>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div> -->
+      <div class="col-md-3 cardscol" style="cursor:pointer;">
+        <mat-card class="card">
+          <div class="row">
+            <div class="col-md-10 carddetailsection">
+              <div class="cardtext">
+                <h4>Total Tasks</h4>
+              </div>
+              <div class="cardquantity">
+                <h6>{{taskData.length?taskData.length:0}}</h6>
+              </div>
+            </div>
+            <div class="col-md-2 cardicondiv">
+              <span class="material-icons card-icon">task</span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-3 cardscol" style="cursor:pointer;">
+        <mat-card class="card">
+          <div class="row">
+            <div class="col-md-10 carddetailsection">
+              <div class="cardtext">
+                <h4>Total Score</h4>
+              </div>
+              <div class="cardquantity">
+                <h6>{{totalScore}}</h6>
+              </div>
+            </div>
+            <div class="col-md-2 cardicondiv">
+              <span class="material-icons card-icon">score</span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 p-t-20" style="width:100%"
+      *ngIf="dataSource.data.length>0">
+
+      <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title.slice(0,50)+ '...'}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description.slice(0,50)+ '...'}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="assigner">
+        <th mat-header-cell *matHeaderCellDef> Assigner </th>
+        <td mat-cell *matCellDef="let element"> {{element.assigner}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> Score </th>
+        <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="words">
+        <th mat-header-cell *matHeaderCellDef> Words </th>
+        <td mat-cell *matCellDef="let element"> {{element.words}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="deadline">
+        <th mat-header-cell *matHeaderCellDef> Deadline </th>
+        <td mat-cell *matCellDef="let element"> {{element.deadline.split('T')[0]}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="remaingTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Timeline </th>
+            <td mat-cell *matCellDef="let element">
+              {{getTaskCountdown(element) | async}}
+            </td>
+          </ng-container> -->
+
+      <ng-container matColumnDef="remaingTime">
+        <th mat-header-cell *matHeaderCellDef> Time Remaining </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="wrapper">
+            <div class="times">
+              <p class="p-r-10">Days {{element.timeline_days}}</p>
+              <p class="p-r-10">Hours {{element.timeline_hours}}</p>
+              <p class="p-r-10">Minutes {{element.timeline_minute}}</p>
+              <p class="p-r-10">Seconds {{element.timeline_seconds}}</p>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accepted">
+        <th mat-header-cell *matHeaderCellDef> Accept </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+          <span *ngIf="element.accepted!='Not Accepted'">{{element.accepted}}</span>
+          <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn btn-primary addTaskBtn"
+            (click)="acceptTask(i)">Accept</button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="file">
+        <th mat-header-cell *matHeaderCellDef> File </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+          <span class="material-icons card-icon">download</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="viewtask">
+        <th mat-header-cell *matHeaderCellDef> Task Description </th>
+        <td mat-cell *matCellDef="let element; let i=index">
+
+          <div class="row">
+            <button type="button" class="btn btn-primary addTaskBtn"
+              (click)="openModal(viewTaskTemplate, i,'viewTemplate')">View Task Description</button>
+          </div>
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div *ngIf="taskData.length==0">
+      <h3 class="text-center" style="color:'#0b2c4eed';">No Data Found</h3>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #viewTaskTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">View Task</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="ViewmodalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <caption>Title</caption>
+    <p>
+      {{taskTitle}}
+    </p>
+    <caption>Description</caption>
+    <p>
+      {{taskDescription}}
+    </p>
+  </div>
+</ng-template>
+<app-footer></app-footer>

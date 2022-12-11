@@ -11,7 +11,7 @@ export class AuthguardService {
 
   canActivate(next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    if (localStorage.getItem('isLogged') != null && localStorage.getItem('role') != 'admin') {
+    if (localStorage.getItem('isLogged') != null && (localStorage.getItem('role') == 'employee' || localStorage.getItem('role') == 'freelancer')) {
       return true;
     }
     else {

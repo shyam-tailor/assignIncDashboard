@@ -29,6 +29,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('role', 'employee')
           this.route.navigate(['/tasks'])
         }
+        if (data.data.role == 'Freelancer') {
+          localStorage.setItem('role', 'freelancer')
+          this.route.navigate(['/tasks'])
+        }
         if (data.data.role == 'Admin') {
 
           localStorage.setItem('role', btoa('admin'))

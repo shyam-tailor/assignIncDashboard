@@ -16,8 +16,6 @@ import { AgGridModule } from 'ag-grid-angular';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DasboardComponent } from './admin/dasboard/dasboard.component';
-import { HeaderComponent } from './pages/header/header.component';
-import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { AddTaskComponent } from './pages/add-task/add-task.component'
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -48,8 +46,6 @@ import { ExcelServiceService } from './excel-service.service';
     AdminFeedbackComponent,
     AdminMessagesComponent,
     DasboardComponent,
-    HeaderComponent,
-    SidebarComponent,
     AddTaskComponent,
     MessagesComponent,
     UsesComponent,

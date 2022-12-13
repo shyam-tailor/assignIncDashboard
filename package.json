@@ -37,6 +37,7 @@
     "express-fileupload": "^1.4.0",
     "express-session": "^1.17.2",
     "file-saver": "^2.0.5",
+    "jquery": "^3.6.1",
     "jszip": "^3.10.1",
     "ldap-authentication": "^2.3.2",
     "lodash-es": "^4.17.21",

@@ -1,9 +1,7 @@
 module.exports = {
 
     getMessageUser(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let user = req.params.username
         console.log(req.params)
         let sql = "select * from messages where message_to=?";
@@ -19,9 +17,7 @@ module.exports = {
     },
 
     getAllMessage(request, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select * from messages";
         con.query(sql, (err, result) => {
             if (err) {
@@ -35,9 +31,7 @@ module.exports = {
     },
 
     addMessage(req, res, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         console.log(req.body)
 
         let sql = "insert into messages set ?";

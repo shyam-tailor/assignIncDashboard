@@ -35,6 +35,10 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './pages/footer/footer.component';
 import { AdminMessagesComponent } from './admin/messages/messages.component';
 import { ExcelServiceService } from './excel-service.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SearchPipe } from './search.pipe';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,13 +53,15 @@ import { ExcelServiceService } from './excel-service.service';
     AddTaskComponent,
     MessagesComponent,
     UsesComponent,
-    FooterComponent
+    FooterComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     CommonModule,
+    NgChartsModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
@@ -66,6 +72,7 @@ import { ExcelServiceService } from './excel-service.service';
     AgGridModule,
     PopoverModule.forRoot(),
     ModalModule.forRoot(),
+    AccordionModule.forRoot(),
     BrowserAnimationsModule,
     MatSelectModule,
     MatTableModule,
@@ -74,6 +81,7 @@ import { ExcelServiceService } from './excel-service.service';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatPaginatorModule
   ],
   providers: [AuthGuard, ExcelServiceService],
   bootstrap: [AppComponent]

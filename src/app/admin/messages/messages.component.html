@@ -4,7 +4,12 @@
             <button type="button" class="btn btn-primary addTaskBtn" (click)="openModal(AddMessageModal)">Add Message
             </button>
         </div>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%">
+        <accordion>
+            <accordion-group *ngFor="let group of dataSource.data;let i=index" [heading]="group.message_from">
+                {{ group?.message }}
+            </accordion-group>
+        </accordion>
+        <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%">
             <ng-container matColumnDef="message">
                 <th mat-header-cell *matHeaderCellDef> Message </th>
                 <td mat-cell *matCellDef="let element"> {{element.message}} </td>
@@ -16,10 +21,9 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+        </table> -->
     </div>
 </div>
-<app-footer></app-footer>
 <ng-template #AddMessageModal>
     <div class="modal-header">
         <h4 class="modal-title pull-left">Add Message</h4>

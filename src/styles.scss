@@ -255,6 +255,11 @@ th.mat-header-cell {
   padding: 0 15px 0 15px !important
 }
 
+.form-control {
+  margin-top: 3%;
+  width: 44%;
+}
+
 .count-down-timer {
   box-shadow: 2px 6px 9px 2px rgb(0 0 0 / 20%);
   text-align: center;
@@ -312,4 +317,57 @@ th.mat-header-cell {
   .count-down-timer {
     margin: 20px;
   }
+}
+
+.btn-link {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.panel-heading {
+  background: #002b5cdb !important;
+}
+
+td,
+th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.mat-sort-header-container {
+  justify-content: center !important;
+}
+
+thead {
+  background: #002b5cdb !important;
+}
+
+.mat-header-cell {
+  color: #fff;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  padding: 7px;
+  width: 26%;
+  margin-right: 19px;
+  font-size: 13px;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #002b5cdb;
+  border-color: #002b5cdb;
+  padding: 7px;
+  width: 26%;
+  font-size: 13px;
+}
+
+.other_btn {
+  width: 100px;
+  background-color: #002b5cdb;
 }

@@ -8,7 +8,9 @@ var session = require('express-session')
 const multer = require("multer");
 var fs = require('fs');
 // const upload = multer({ dest: "uploads/" });
-var con = null;
+var con = db.openCon(con);
+
+
 
 var userController = require('./api_controller/userController')
 var taskController = require('./api_controller/taskController')

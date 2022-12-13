@@ -6,7 +6,7 @@
         </div>
 
         <br>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table table-striped" style="width:100%">
 
             <ng-container matColumnDef="title">
                 <th mat-header-cell *matHeaderCellDef> Task Title </th>
@@ -30,8 +30,6 @@
         </table>
     </div>
 </div>
-
-<app-footer></app-footer>
 
 <ng-template #addFeedbacktemplate>
     <div class="modal-header">

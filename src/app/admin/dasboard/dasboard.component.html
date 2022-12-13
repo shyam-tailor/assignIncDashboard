@@ -91,5 +91,82 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-6 col-md-6 col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Task Usage</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart-responsive">
+                            <canvas baseChart [type]="'pie'" [datasets]="pieChartDatasets" [labels]="pieChartLabels"
+                                [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                            </canvas>
+                        </div>
+                        <!-- ./chart-responsive -->
+                    </div>
 
-<app-footer></app-footer>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer p-0">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            Failed Orders
+                            <span class="float-right text-danger">
+                                <i class="fas fa-arrow-down text-sm"></i>
+                                12%</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            Completed Orders
+                            <span class="float-right text-success">
+                                <i class="fas fa-arrow-up text-sm"></i> 4%
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            Pending Orders
+                            <span class="float-right text-warning">
+                                <i class="fas fa-arrow-left text-sm"></i> 0%
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.footer -->
+        </div>
+    </div>
+    <div class="col-6 col-md-6 col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Task Rate Of Week</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart-responsive">
+                            <canvas baseChart [data]="barChartData" [options]="barChartOptions"
+                                [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="'bar'"
+                                style="width:475px; height:300px">
+                            </canvas>
+                        </div>
+                        <!-- ./chart-responsive -->
+                    </div>
+
+                </div>
+                <!-- /.row -->
+            </div>
+
+        </div>
+    </div>
+
+</div>

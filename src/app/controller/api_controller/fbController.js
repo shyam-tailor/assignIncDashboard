@@ -1,9 +1,7 @@
 module.exports = {
 
   getfeedbackDetails(request, response, db, con) {
-    if (con == null) {
-      con = db.openCon(con)
-    }
+
     let sql = "select * from feedback fb inner join task_details td on (fb.id=td.id)";
     con.query(sql, (err, result) => {
       if (err) {
@@ -17,9 +15,7 @@ module.exports = {
   },
 
   getfeedbackforuser(request, response, db, con) {
-    if (con == null) {
-      con = db.openCon(con)
-    }
+
     console.log(request.body)
     username = request.query.username
     let sql = "select * from feedback fb inner join task_details td on (fb.id=td.id) user td.username=?";
@@ -35,9 +31,7 @@ module.exports = {
   },
 
   addFeedback(req, res, db, con) {
-    if (con == null) {
-      con = db.openCon(con)
-    }
+
     let sql = "INSERT INTO feedback (task_id,feedback_title) VALUES (?,?)";
     data = [req.body.task_id, req.body.feedback_title]
     console.log(data)
@@ -53,9 +47,7 @@ module.exports = {
   },
 
   getfeedbackCount(request, response, db, con) {
-    if (con == null) {
-      con = db.openCon(con)
-    }
+
     let sql = "select COUNT(feedback_title) as totlFeedback from feedback";
     con.query(sql, (err, result) => {
       if (err) {

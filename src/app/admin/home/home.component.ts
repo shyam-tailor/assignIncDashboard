@@ -8,6 +8,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ExcelServiceService } from '../../excel-service.service';
+import { MatPaginator } from '@angular/material/paginator';
 import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class AdminHomeComponent implements OnInit {
   file: any;
   displayedColumns: any;
   dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator: MatPaginator | any;
   AddmodalRef?: BsModalRef;
   editmodalRef?: BsModalRef;
   ViewmodalRef?: BsModalRef;
@@ -39,7 +41,10 @@ export class AdminHomeComponent implements OnInit {
   timeline_minute!: number;
   statusData: any
   taskId: any;
+  searchKey: any
   constructor(private route: Router, private http: HttpClient, private excelService: ExcelServiceService, public commonsvc: CommonServiceService, private modalService: BsModalService, private fb: FormBuilder) {
+
+
     this.TaskForm = this.fb.group({
       'title': [""],
       'description': [""],
@@ -91,6 +96,7 @@ export class AdminHomeComponent implements OnInit {
         if (result.data.length > 0) {
           this.taskData = result.data;
           this.dataSource = new MatTableDataSource<any>(result.data)
+          this.dataSource.paginator = this.paginator;
 
           result.data.forEach((item: any) => {
             let currentDate = new Date();
@@ -215,6 +221,11 @@ export class AdminHomeComponent implements OnInit {
         console.log(error)
       })
 
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   editTaskModal(item: any) {

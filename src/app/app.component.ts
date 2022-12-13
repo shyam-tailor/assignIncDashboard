@@ -1,7 +1,7 @@
 
 
 
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay, filter } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   isLogged: string | null;
@@ -24,7 +24,7 @@ export class AppComponent {
     this.isLogged = localStorage.getItem('isLogged')
   }
 
-  ngOnInIt() {
+  ngOnInit() {
     this.checkRole();
   }
 
@@ -32,7 +32,7 @@ export class AppComponent {
     this.observer
       .observe(['(max-width: 800px)'])
       .pipe(delay(1), untilDestroyed(this))
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.matches) {
           this.sidenav.mode = 'over';
           this.sidenav.close();

@@ -68,15 +68,11 @@ module.exports = {
     },
 
     logoutAction(req, res, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
     },
 
     getAllUsers(req, res, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         var sql = "select id,username, firstname, lastname, dob,role, score, cost from users where isDeleted=0"
         con.query(sql, (err, result) => {
             if (err) {
@@ -93,9 +89,7 @@ module.exports = {
     },
 
     getAllUsersCount(request, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select COUNT(username) as totalUsers from users where isDeleted=0";
         con.query(sql, (err, result) => {
             if (err) {
@@ -108,9 +102,7 @@ module.exports = {
     },
 
     updateUser(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         var data = {
             username: req.body.username,
             firstname: req.body.firstname,
@@ -132,9 +124,6 @@ module.exports = {
     },
 
     checkIn(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
 
         console.log(req.body)
 
@@ -150,9 +139,7 @@ module.exports = {
     },
 
     getCheckinStatus(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select checkIn from attendence where date=?";
         con.query(sql, [req.body.date], (err, result) => {
             if (err) {
@@ -166,9 +153,7 @@ module.exports = {
 
 
     checkOut(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
 
         console.log(req.body)
 

@@ -1,8 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonServiceService } from '../../common-service.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-uses',
   templateUrl: './uses.component.html',
@@ -17,6 +18,7 @@ export class UsesComponent implements OnInit {
   EditUserForm: FormGroup;
   roleData: any = [];
   userId: any;
+  @ViewChild(MatPaginator) paginator: MatPaginator | any;
   constructor(public commonsvc: CommonServiceService, private modalService: BsModalService, private fb: FormBuilder) {
     this.initAddUser()
     this.EditUserForm = this.fb.group({
@@ -62,6 +64,7 @@ export class UsesComponent implements OnInit {
           this.displayedColumns.push('edit')
           console.log(this.displayedColumns)
           this.dataSource = new MatTableDataSource<any>(res.data);
+          this.dataSource.paginator = this.paginator;
         }
         else {
           this.usersData = [];
@@ -96,6 +99,12 @@ export class UsesComponent implements OnInit {
       'cost': [item.cost]
     })
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
 
 
   UpdateUser() {

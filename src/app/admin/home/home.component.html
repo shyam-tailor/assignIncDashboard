@@ -1,43 +1,46 @@
-<!-- Button to clear selection
-<button (click)="clearSelection()">Clear Selection</button> -->
-<!-- AG Grid Angular Component -->
-
-
-
 <div class="row">
   <div class="col-12 table_box">
-    <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o" style="font-size:48px;color:blue"></i></button>
+    <a (click)="exportAsXLSX()"><img src="../../../assets/excel.png" style="width:3%"></a>
     <div class="row addBtn">
       <button type="button" class="btn btn-primary addTaskBtn"
         (click)="openModal(addTasktTemplate, null,'addTemplate')">Add
         Task</button>
     </div>
 
-    <br>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%" *ngIf="taskData.length>0">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Tasks List</h3>
+      </div>
+    </div>
+    <div class="row m-b-10" style="margin-top:10px;margin-bottom:10px">
+      <div class="col-6 col-md-6 col-sm-6">
+        <input type="text" placeholder="Search Here..." class="form-control input" (keyup)="applyFilter($event)">
+      </div>
+      <div class="col-6 col-md-6 col-sm-6">
 
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+        </mat-paginator>
+      </div>
 
-      <!-- Position Column -->
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table table-striped" style="width:100%"
+      *ngIf="taskData.length>0">
+
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title </th>
         <td mat-cell *matCellDef="let element"> {{element.title}} </td>
       </ng-container>
-
-      <!-- Name Column -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> Description </th>
         <td mat-cell *matCellDef="let element"> {{element.description.slice(0,50)+ '...'}} </td>
       </ng-container>
 
-      <!-- Weight Column -->
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef> Username </th>
         <td mat-cell *matCellDef="let element"> {{element.username}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
       <ng-container matColumnDef="assigner">
         <th mat-header-cell *matHeaderCellDef> Assigner </th>
         <td mat-cell *matCellDef="let element"> {{element.assigner}} </td>
@@ -68,12 +71,7 @@
         <td mat-cell *matCellDef="let element"> {{element.deadline.split('T')[0]}} </td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="remaingTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Timeline </th>
-        <td mat-cell *matCellDef="let element">
-          {{getTaskCountdown(element) | async}}
-        </td>
-      </ng-container> -->
+
 
       <ng-container matColumnDef="remaingTime">
         <th mat-header-cell *matHeaderCellDef> Time Remaining </th>
@@ -93,7 +91,7 @@
         <th mat-header-cell *matHeaderCellDef> Accept </th>
         <td mat-cell *matCellDef="let element; let i=index">
           <span *ngIf="element.accepted!='Not Accepted'">{{element.accepted}}</span>
-          <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn btn-primary addTaskBtn"
+          <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn other_btn addTaskBtn"
             (click)="acceptTask(i)">Accept</button>
         </td>
       </ng-container>
@@ -108,8 +106,9 @@
         <td mat-cell *matCellDef="let element; let i=index">
 
           <div class="row">
-            <button type="button" class="btn btn-primary addTaskBtn"
-              (click)="openModal(viewTaskTemplate, i,'viewTemplate')">View Task Description</button>
+            <a><span class="material-icons card-icon"
+                (click)="openModal(viewTaskTemplate, i,'viewTemplate')">visibility</span></a>
+
           </div>
         </td>
       </ng-container>
@@ -118,18 +117,12 @@
         <td mat-cell *matCellDef="let element; let i=index">
 
           <div class="row">
-            <button type="button" class="btn btn-primary addTaskBtn"
-              (click)="openModal(editTaskTemplate, i,'editTemplate');editTaskModal(element)">Edit Task</button>
+            <a><span class="material-icons card-icon"
+                (click)="openModal(editTaskTemplate, i,'editTemplate');editTaskModal(element)">edit</span></a>
           </div>
         </td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="accepted" >
-        <th mat-header-cell *matHeaderCellDef> accepted </th>
-        <td mat-cell *matCellDef="let element">
-         
-        </td>
-      </ng-container> -->
 
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -139,14 +132,9 @@
     <div *ngIf="taskData.length==0">
       <h3 class="text-center" style="color:'#0b2c4eed';">No Data Found</h3>
     </div>
-    <!-- <ag-grid-angular style="width: 100%; height: 1000px" class="ag-theme-alpine" [columnDefs]="columnDefs"
-      [defaultColDef]="defaultColDef" [rowData]="rowData$ | async" [rowSelection]="'multiple'" [animateRows]="true"
-      (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)">
-    </ag-grid-angular> -->
   </div>
 </div>
 
-<app-footer></app-footer>
 
 
 <ng-template #addTasktTemplate>

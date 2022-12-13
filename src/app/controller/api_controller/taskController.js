@@ -1,10 +1,7 @@
 module.exports = {
 
     getTaskDetails(request, response, db, con) {
-        console.log(request)
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
 
         let user = request.params.user;
         console.log(user)
@@ -22,9 +19,7 @@ module.exports = {
     },
 
     getFailedTask(request, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select COUNT(id) as totalFailed from task_details where status=?";
         con.query(sql, ['failed'], (err, result) => {
             if (err) {
@@ -38,10 +33,7 @@ module.exports = {
     },
 
     getAllTaskDetails(request, response, db, con) {
-        console.log(request)
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select * from task_details";
         con.query(sql, (err, result) => {
             if (err) {
@@ -55,9 +47,7 @@ module.exports = {
     },
 
     addTask(req, res, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         // let sql = "INSERT INTO task_details (title, description, assigner,username,deadline,file) VALUES (?,?,?,?,?,?)";
         let sql = "INSERT INTO task_details set ?";
         data = [req.body.title, req.body.description, req.body.assigner, req.body.username, req.body.deadline, req.body.file]
@@ -74,9 +64,7 @@ module.exports = {
     },
 
     updateTask(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
 
         let sql = "update task_details set ? where id=?";
         con.query(sql, [req.body, req.body.id], (err, result) => {
@@ -92,9 +80,7 @@ module.exports = {
 
 
     getAllCount(request, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select COUNT(title) titles from task_details where isDeleted=0";
         con.query(sql, (err, result) => {
             if (err) {
@@ -107,9 +93,7 @@ module.exports = {
     },
 
     acceptTask(request, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
 
         let task_id = request.body.taskId;
         let sql = "update task_details SET accepted=? ,status=? where id=?"
@@ -125,9 +109,7 @@ module.exports = {
     },
 
     getFile(req, response, db, con) {
-        if (con == null) {
-            con = db.openCon(con)
-        }
+
         let sql = "select filename from task_files where id=?";
         con.query(sql, [req.params.id], (err, result) => {
             if (err) {

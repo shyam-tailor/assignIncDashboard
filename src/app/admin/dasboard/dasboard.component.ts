@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonServiceService } from '../../common-service.service';
-
-
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 export interface CountsInterface {
   tasks: 0,
   users: 0,
@@ -21,6 +20,34 @@ export class DasboardComponent implements OnInit {
   constructor(public commonsvc: CommonServiceService) { }
   username: any;
   countsObj!: CountsInterface;
+
+
+  public barChartLegend = true;
+  public barChartPlugins = [];
+
+  public barChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'],
+    datasets: [
+      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Completed' },
+      { data: [28, 48, 40, 19, 86, 27, 90], label: 'Failed' }
+    ]
+  };
+
+  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: false,
+  };
+
+
+  // Pie
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: false,
+  };
+  public pieChartLabels = [['Failed'], ['Completed'], ['Pending']];
+  public pieChartDatasets = [{
+    data: [300, 500, 100]
+  }];
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
   getCounts() {
     this.commonsvc.getTaskCounts().subscribe(
       (result: any) => {

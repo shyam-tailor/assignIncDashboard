@@ -1,139 +1,207 @@
-<div class="row">
-  <div class="col-12 table_box">
-    <a (click)="exportAsXLSX()"><img src="../../../assets/excel.png" style="width:3%"></a>
-    <div class="row addBtn">
-      <button type="button" class="btn btn-primary addTaskBtn"
-        (click)="openModal(addTasktTemplate, null,'addTemplate')">Add
-        Task</button>
-    </div>
+<mat-toolbar class="mat-elevation-z8">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+  </button>
+  <img src="../assets//logo-new.png" alt="" style="width:3%"><span> | AssignInc </span>
+</mat-toolbar>
 
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Tasks List</h3>
-      </div>
-    </div>
-    <div class="row m-b-10" style="margin-top:10px;margin-bottom:10px">
-      <div class="col-6 col-md-6 col-sm-6">
-        <input type="text" placeholder="Search Here..." class="form-control input" (keyup)="applyFilter($event)">
-      </div>
-      <div class="col-6 col-md-6 col-sm-6">
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
 
-        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
-        </mat-paginator>
-      </div>
+    <h4 class="name">John Smith</h4>
+    <p class="designation">Software Engineer</p>
 
-    </div>
+    <mat-divider></mat-divider>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table table-striped" style="width:100%"
-      *ngIf="taskData.length>0">
+    <button mat-button class="menu-button" routerLink="/admin/dashboard" routerLinkActive="active"
+      *ngIf="role=='admin'">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/admin/users" routerLinkActive="active" *ngIf="role=='admin'">
+      <mat-icon>person</mat-icon>
+      <span>Users</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/admin/alltask" routerLinkActive="active" *ngIf="role=='admin'">
+      <mat-icon>task</mat-icon>
+      <span>Tasks</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/admin/feedback" routerLinkActive="active" *ngIf="role=='admin'">
+      <mat-icon>rate_review</mat-icon>
+      <span>Feedback</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/admin/messages" routerLinkActive="active" *ngIf="role=='admin'">
+      <mat-icon>message</mat-icon>
+      <span>Messages</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/tasks" routerLinkActive="active" *ngIf="role=='not_admin'">
+      <mat-icon>help</mat-icon>
+      <span>Tasks</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/feedback" routerLinkActive="active" *ngIf="role=='not_admin'">
+      <mat-icon>help</mat-icon>
+      <span>Feedback</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/messages" routerLinkActive="active" *ngIf="role=='not_admin'">
+      <mat-icon>help</mat-icon>
+      <span>Messages</span>
+    </button>
 
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-      </ng-container>
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let element"> {{element.description.slice(0,50)+ '...'}} </td>
-      </ng-container>
+    <mat-divider></mat-divider>
 
-      <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-      </ng-container>
+    <button mat-button class="menu-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <div class="row">
+        <div class="col-12 table_box">
+          <a (click)="exportAsXLSX()"><img src="../../../assets/excel.png" style="width:3%"></a>
+          <div class="row addBtn">
+            <button type="button" class="btn btn-primary addTaskBtn"
+              (click)="openModal(addTasktTemplate, null,'addTemplate')">Add
+              Task</button>
+          </div>
 
-      <ng-container matColumnDef="assigner">
-        <th mat-header-cell *matHeaderCellDef> Assigner </th>
-        <td mat-cell *matCellDef="let element"> {{element.assigner}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="score">
-        <th mat-header-cell *matHeaderCellDef> Score </th>
-        <td mat-cell *matCellDef="let element"> {{element.score}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="words">
-        <th mat-header-cell *matHeaderCellDef> Words </th>
-        <td mat-cell *matCellDef="let element"> {{element.words}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="cost_to_company">
-        <th mat-header-cell *matHeaderCellDef> Cost to Company </th>
-        <td mat-cell *matCellDef="let element"> {{element.cost_to_company}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="cost_to_freelance">
-        <th mat-header-cell *matHeaderCellDef> Cost to Freelancer </th>
-        <td mat-cell *matCellDef="let element"> {{element.cost_to_freelance}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="deadline">
-        <th mat-header-cell *matHeaderCellDef> Deadline </th>
-        <td mat-cell *matCellDef="let element"> {{element.deadline.split('T')[0]}} </td>
-      </ng-container>
-
-
-
-      <ng-container matColumnDef="remaingTime">
-        <th mat-header-cell *matHeaderCellDef> Time Remaining </th>
-        <td mat-cell *matCellDef="let element">
-          <div class="wrapper">
-            <div class="times">
-              <p class="p-r-10">Days {{element.timeline_days}}</p>
-              <p class="p-r-10">Hours {{element.timeline_hours}}</p>
-              <p class="p-r-10">Minutes {{element.timeline_minute}}</p>
-              <p class="p-r-10">Seconds {{element.timeline_seconds}}</p>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Tasks List</h3>
             </div>
           </div>
-        </td>
-      </ng-container>
+          <div class="row m-b-10" style="margin-top:10px;margin-bottom:10px">
+            <div class="col-6 col-md-6 col-sm-6">
+              <input type="text" placeholder="Search Here..." class="form-control input" (keyup)="applyFilter($event)">
+            </div>
+            <div class="col-6 col-md-6 col-sm-6">
 
-      <ng-container matColumnDef="accepted">
-        <th mat-header-cell *matHeaderCellDef> Accept </th>
-        <td mat-cell *matCellDef="let element; let i=index">
-          <span *ngIf="element.accepted!='Not Accepted'">{{element.accepted}}</span>
-          <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn other_btn addTaskBtn"
-            (click)="acceptTask(i)">Accept</button>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="file">
-        <th mat-header-cell *matHeaderCellDef> File </th>
-        <td mat-cell *matCellDef="let element; let i=index">
-          <a><span class="material-icons card-icon" (click)="downloadFile(element.id)">download</span></a>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="viewtask">
-        <th mat-header-cell *matHeaderCellDef> Task Description </th>
-        <td mat-cell *matCellDef="let element; let i=index">
-
-          <div class="row">
-            <a><span class="material-icons card-icon"
-                (click)="openModal(viewTaskTemplate, i,'viewTemplate')">visibility</span></a>
+              <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page">
+              </mat-paginator>
+            </div>
 
           </div>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="edittask">
-        <th mat-header-cell *matHeaderCellDef> Edit </th>
-        <td mat-cell *matCellDef="let element; let i=index">
 
-          <div class="row">
-            <a><span class="material-icons card-icon"
-                (click)="openModal(editTaskTemplate, i,'editTemplate');editTaskModal(element)">edit</span></a>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table table-striped" style="width:100%"
+            *ngIf="taskData.length>0">
+
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef> Title </th>
+              <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let element"> {{element.description.slice(0,50)+ '...'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+              <th mat-header-cell *matHeaderCellDef> Username </th>
+              <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="assigner">
+              <th mat-header-cell *matHeaderCellDef> Assigner </th>
+              <td mat-cell *matCellDef="let element"> {{element.assigner}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="score">
+              <th mat-header-cell *matHeaderCellDef> Score </th>
+              <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="words">
+              <th mat-header-cell *matHeaderCellDef> Words </th>
+              <td mat-cell *matCellDef="let element"> {{element.words}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cost_to_company">
+              <th mat-header-cell *matHeaderCellDef> Cost to Company </th>
+              <td mat-cell *matCellDef="let element"> {{element.cost_to_company}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cost_to_freelance">
+              <th mat-header-cell *matHeaderCellDef> Cost to Freelancer </th>
+              <td mat-cell *matCellDef="let element"> {{element.cost_to_freelance}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="deadline">
+              <th mat-header-cell *matHeaderCellDef> Deadline </th>
+              <td mat-cell *matCellDef="let element"> {{element.deadline.split('T')[0]}} </td>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="remaingTime">
+              <th mat-header-cell *matHeaderCellDef> Time Remaining </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="wrapper">
+                  <div class="times">
+                    <p class="p-r-10">Days {{element.timeline_days}}</p>
+                    <p class="p-r-10">Hours {{element.timeline_hours}}</p>
+                    <p class="p-r-10">Minutes {{element.timeline_minute}}</p>
+                    <p class="p-r-10">Seconds {{element.timeline_seconds}}</p>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="accepted">
+              <th mat-header-cell *matHeaderCellDef> Accept </th>
+              <td mat-cell *matCellDef="let element; let i=index">
+                <span *ngIf="element.accepted!='Not Accepted'">{{element.accepted}}</span>
+                <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn other_btn addTaskBtn"
+                  (click)="acceptTask(i)">Accept</button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="file">
+              <th mat-header-cell *matHeaderCellDef> File </th>
+              <td mat-cell *matCellDef="let element; let i=index">
+                <a><span class="material-icons card-icon" (click)="downloadFile(element.id)">download</span></a>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="viewtask">
+              <th mat-header-cell *matHeaderCellDef> Task Description </th>
+              <td mat-cell *matCellDef="let element; let i=index">
+
+                <div class="row">
+                  <a><span class="material-icons card-icon"
+                      (click)="openModal(viewTaskTemplate, i,'viewTemplate')">visibility</span></a>
+
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="edittask">
+              <th mat-header-cell *matHeaderCellDef> Edit </th>
+              <td mat-cell *matCellDef="let element; let i=index">
+
+                <div class="row">
+                  <a><span class="material-icons card-icon"
+                      (click)="openModal(editTaskTemplate, i,'editTemplate');editTaskModal(element)">edit</span></a>
+                </div>
+              </td>
+            </ng-container>
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+
+          <div *ngIf="taskData.length==0">
+            <h3 class="text-center" style="color:'#0b2c4eed';">No Data Found</h3>
           </div>
-        </td>
-      </ng-container>
+        </div>
+      </div>
 
 
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <div *ngIf="taskData.length==0">
-      <h3 class="text-center" style="color:'#0b2c4eed';">No Data Found</h3>
     </div>
-  </div>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
 
 
 

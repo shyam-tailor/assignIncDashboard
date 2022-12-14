@@ -7,8 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
+
 import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthguardService as AuthGuard } from './authguard.service';
@@ -39,11 +38,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchPipe } from './search.pipe';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { NgChartsModule } from 'ng2-charts';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
+
     HomeComponent,
     FeedbackComponent,
     AdminHomeComponent,
@@ -54,7 +54,9 @@ import { NgChartsModule } from 'ng2-charts';
     MessagesComponent,
     UsesComponent,
     FooterComponent,
-    SearchPipe
+    SearchPipe,
+    SidebarComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -81,7 +83,8 @@ import { NgChartsModule } from 'ng2-charts';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    // AuthenticationModule
   ],
   providers: [AuthGuard, ExcelServiceService],
   bootstrap: [AppComponent]

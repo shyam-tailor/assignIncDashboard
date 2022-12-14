@@ -1,23 +1,79 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonServiceService } from '../../common-service.service';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
+import { delay, filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+
 export interface CountsInterface {
   tasks: 0,
   users: 0,
   feedbacks: 0
 }
+@UntilDestroy()
 @Component({
   selector: 'app-dasboard',
   templateUrl: './dasboard.component.html',
   styleUrls: ['./dasboard.component.scss']
 })
-export class DasboardComponent implements OnInit {
+export class DasboardComponent implements OnInit, AfterViewInit {
   isshow!: boolean;
   totalTasks: any = 0;
   totalUsers: any = 0;
   totalFeedbacks: any = 0;
   totalFailed: any = 0
-  constructor(public commonsvc: CommonServiceService) { }
+
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  isLogged: any;
+  role: any;
+  constructor(private observer: BreakpointObserver, private router: Router, public commonsvc: CommonServiceService) { }
+
+  ngAfterViewInit() {
+    this.observer
+      .observe(['(max-width: 800px)'])
+      .pipe(delay(1), untilDestroyed(this))
+      .subscribe((res: any) => {
+        if (res.matches) {
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+        } else {
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+        }
+      });
+
+    this.router.events
+      .pipe(
+        untilDestroyed(this),
+        filter((e) => e instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        if (this.sidenav.mode === 'over') {
+          this.sidenav.close();
+        }
+      });
+  }
+
+  logout() {
+    localStorage.removeItem('isLogged');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userDetails')
+    this.router.navigate(['login']);
+  }
+
+  checkRole() {
+    this.role = localStorage.getItem('role')
+    if (this.role == 'employee') {
+      this.role = 'not_admin'
+    }
+    if (atob(this.role) == 'admin') {
+      this.role = 'admin'
+    }
+  }
   username: any;
   countsObj!: CountsInterface;
 
@@ -106,6 +162,7 @@ export class DasboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCounts()
+    this.checkRole()
   }
 
 }

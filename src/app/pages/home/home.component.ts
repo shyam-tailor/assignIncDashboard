@@ -6,12 +6,24 @@ import { CommonServiceService } from 'src/app/common-service.service';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatTableDataSource } from '@angular/material/table';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
+import { delay, filter } from 'rxjs/operators';
+import { NavigationEnd } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  isLogged: any;
+  role: any;
   displayedColumns: any;
   taskData$!: Observable<any>;
   dataSource = new MatTableDataSource<any>();
@@ -31,9 +43,50 @@ export class HomeComponent implements OnInit {
   totalWords: any = 0;
   totalPayment: any = 0;
   totalScore: any = 0;
-  constructor(private route: Router, private http: HttpClient, public commonsvc: CommonServiceService, private modalService: BsModalService) { }
+  constructor(private observer: BreakpointObserver, private router: Router, private http: HttpClient, public commonsvc: CommonServiceService, private modalService: BsModalService) { }
 
+  ngAfterViewInit() {
+    this.observer
+      .observe(['(max-width: 800px)'])
+      .pipe(delay(1), untilDestroyed(this))
+      .subscribe((res: any) => {
+        if (res.matches) {
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+        } else {
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+        }
+      });
 
+    this.router.events
+      .pipe(
+        untilDestroyed(this),
+        filter((e) => e instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        if (this.sidenav.mode === 'over') {
+          this.sidenav.close();
+        }
+      });
+  }
+
+  logout() {
+    localStorage.removeItem('isLogged');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userDetails')
+    this.router.navigate(['login']);
+  }
+
+  checkRole() {
+    this.role = localStorage.getItem('role')
+    if (this.role == 'employee') {
+      this.role = 'not_admin'
+    }
+    if (atob(this.role) == 'admin') {
+      this.role = 'admin'
+    }
+  }
 
   getTask() {
     this.userData = localStorage.getItem('userDetails')
@@ -116,7 +169,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTask()
+
+    this.getTask();
     this.displayedColumns = [
       "title",
       "description",
@@ -130,6 +184,8 @@ export class HomeComponent implements OnInit {
       "file",
       'viewtask',
     ]
+
+    this.checkRole();
 
   }
 

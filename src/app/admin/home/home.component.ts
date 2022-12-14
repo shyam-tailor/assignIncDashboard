@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CommonServiceService } from '../../common-service.service';
@@ -10,6 +9,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ExcelServiceService } from '../../excel-service.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { saveAs } from 'file-saver';
+
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
+import { delay, filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -42,7 +49,7 @@ export class AdminHomeComponent implements OnInit {
   statusData: any
   taskId: any;
   searchKey: any
-  constructor(private route: Router, private http: HttpClient, private excelService: ExcelServiceService, public commonsvc: CommonServiceService, private modalService: BsModalService, private fb: FormBuilder) {
+  constructor(private observer: BreakpointObserver, private router: Router, private http: HttpClient, private excelService: ExcelServiceService, public commonsvc: CommonServiceService, private modalService: BsModalService, private fb: FormBuilder) {
 
 
     this.TaskForm = this.fb.group({
@@ -81,10 +88,58 @@ export class AdminHomeComponent implements OnInit {
     ]
   }
 
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  isLogged: any;
+  role: any;
 
   ngAfterViewInit() {
-    this.onGridReady();
+    this.onGridReady()
+    this.observer
+      .observe(['(max-width: 800px)'])
+      .pipe(delay(1), untilDestroyed(this))
+      .subscribe((res: any) => {
+        if (res.matches) {
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+        } else {
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+        }
+      });
+
+    this.router.events
+      .pipe(
+        untilDestroyed(this),
+        filter((e) => e instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        if (this.sidenav.mode === 'over') {
+          this.sidenav.close();
+        }
+      });
   }
+
+  logout() {
+    localStorage.removeItem('isLogged');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userDetails')
+    this.router.navigate(['login']);
+  }
+
+  checkRole() {
+    this.role = localStorage.getItem('role')
+    if (this.role == 'employee') {
+      this.role = 'not_admin'
+    }
+    if (atob(this.role) == 'admin') {
+      this.role = 'admin'
+    }
+  }
+
+
+
+
 
   onGridReady() {
     this.rowData$ = this.commonsvc.getAllTaskDetails();
@@ -143,10 +198,7 @@ export class AdminHomeComponent implements OnInit {
 
 
 
-  logout() {
-    localStorage.removeItem('isLogged');
-    this.route.navigate(['login']);
-  }
+
 
   getAllUsers() {
     this.commonsvc.getAllUsers().subscribe(
@@ -307,6 +359,8 @@ export class AdminHomeComponent implements OnInit {
       'edittask',
       'file'
     ]
+
+    this.checkRole()
     // array.forEach((item) => {
     //   this.columnDefs.push({ field: item })
     // })

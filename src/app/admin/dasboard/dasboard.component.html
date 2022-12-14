@@ -1,172 +1,243 @@
-<div class="row">
+<mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+        <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+    </button>
+    <img src="../assets//logo-new.png" alt="" style="width:3%"><span> | AssignInc </span>
+</mat-toolbar>
 
-    <div class="col-12">
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+        <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
 
-        <div class="cardsrow row">
-            <div class="col-md-3 cardscol" style="cursor:pointer;">
-                <mat-card class="card">
-                    <div class="row">
-                        <div class="col-md-10 carddetailsection">
-                            <div class="cardtext">
-                                <h4>Total Users</h4>
-                            </div>
-                            <div class="cardquantity">
-                                <h6>{{totalTasks ? totalTasks:0}}</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-2 cardicondiv">
-                            <span class="material-icons card-icon">people_outline</span>
-                        </div>
-                    </div>
-                </mat-card>
-            </div>
-            <div class="col-md-3 cardscol" style="cursor:pointer;">
-                <mat-card class="card">
-                    <div class="row">
-                        <div class="col-md-10 carddetailsection">
-                            <div class="cardtext">
-                                <h4>Total Tasks</h4>
-                            </div>
-                            <div class="cardquantity">
-                                <h6>{{totalUsers}}</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-2 cardicondiv">
-                            <span class="material-icons card-icon">task</span>
-                        </div>
-                    </div>
-                </mat-card>
-            </div>
-            <!-- <div class="col-md-3 cardscol" style="cursor:pointer;">
-                <mat-card class="card">
-                    <div class="row">
-                        <div class="col-md-10 carddetailsection">
-                            <div class="cardtext">
-                                <h4>Total Payment</h4>
-                            </div>
-                            <div class="cardquantity">
-                                <h6>5</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-2 cardicondiv">
-                            <span class="material-icons card-icon">payments</span>
-                        </div>
-                    </div>
-                </mat-card>
-            </div> -->
-            <div class="col-md-3 cardscol" style="cursor:pointer;">
-                <mat-card class="card">
-                    <div class="row">
-                        <div class="col-md-10 carddetailsection">
-                            <div class="cardtext">
-                                <h4>Total Feedbacks</h4>
-                            </div>
-                            <div class="cardquantity">
-                                <h6>{{totalFeedbacks}}</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-2 cardicondiv">
-                            <span class="material-icons card-icon">rate_review</span>
-                        </div>
-                    </div>
-                </mat-card>
-            </div>
-            <div class="col-md-3 cardscol" style="cursor:pointer;">
-                <mat-card class="card">
-                    <div class="row">
-                        <div class="col-md-10 carddetailsection">
-                            <div class="cardtext">
-                                <h4>Failed Orders</h4>
-                            </div>
-                            <div class="cardquantity">
-                                <h6>{{totalFailed}}</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-2 cardicondiv">
-                            <span class="material-icons card-icon">sms_failed</span>
-                        </div>
-                    </div>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-6 col-md-6 col-sm-6">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Task Usage</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="chart-responsive">
-                            <canvas baseChart [type]="'pie'" [datasets]="pieChartDatasets" [labels]="pieChartLabels"
-                                [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
-                            </canvas>
-                        </div>
-                        <!-- ./chart-responsive -->
-                    </div>
+        <h4 class="name">John Smith</h4>
+        <p class="designation">Software Engineer</p>
 
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" routerLink="/admin/dashboard" routerLinkActive="active"
+            *ngIf="role=='admin'">
+            <mat-icon>home</mat-icon>
+            <span>Home</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/admin/users" routerLinkActive="active"
+            *ngIf="role=='admin'">
+            <mat-icon>person</mat-icon>
+            <span>Users</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/admin/alltask" routerLinkActive="active"
+            *ngIf="role=='admin'">
+            <mat-icon>task</mat-icon>
+            <span>Tasks</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/admin/feedback" routerLinkActive="active"
+            *ngIf="role=='admin'">
+            <mat-icon>rate_review</mat-icon>
+            <span>Feedback</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/admin/messages" routerLinkActive="active"
+            *ngIf="role=='admin'">
+            <mat-icon>message</mat-icon>
+            <span>Messages</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/tasks" routerLinkActive="active" *ngIf="role=='not_admin'">
+            <mat-icon>help</mat-icon>
+            <span>Tasks</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/feedback" routerLinkActive="active"
+            *ngIf="role=='not_admin'">
+            <mat-icon>help</mat-icon>
+            <span>Feedback</span>
+        </button>
+        <button mat-button class="menu-button" routerLink="/messages" routerLinkActive="active"
+            *ngIf="role=='not_admin'">
+            <mat-icon>help</mat-icon>
+            <span>Messages</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="content mat-elevation-z8">
+            <div class="row">
+
+                <div class="col-12">
+
+                    <div class="cardsrow row">
+                        <div class="col-md-3 cardscol" style="cursor:pointer;">
+                            <mat-card class="card">
+                                <div class="row">
+                                    <div class="col-md-10 carddetailsection">
+                                        <div class="cardtext">
+                                            <h4>Total Users</h4>
+                                        </div>
+                                        <div class="cardquantity">
+                                            <h6>{{totalTasks ? totalTasks:0}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 cardicondiv">
+                                        <span class="material-icons card-icon">people_outline</span>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div class="col-md-3 cardscol" style="cursor:pointer;">
+                            <mat-card class="card">
+                                <div class="row">
+                                    <div class="col-md-10 carddetailsection">
+                                        <div class="cardtext">
+                                            <h4>Total Tasks</h4>
+                                        </div>
+                                        <div class="cardquantity">
+                                            <h6>{{totalUsers}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 cardicondiv">
+                                        <span class="material-icons card-icon">task</span>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <!-- <div class="col-md-3 cardscol" style="cursor:pointer;">
+                            <mat-card class="card">
+                                <div class="row">
+                                    <div class="col-md-10 carddetailsection">
+                                        <div class="cardtext">
+                                            <h4>Total Payment</h4>
+                                        </div>
+                                        <div class="cardquantity">
+                                            <h6>5</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 cardicondiv">
+                                        <span class="material-icons card-icon">payments</span>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div> -->
+                        <div class="col-md-3 cardscol" style="cursor:pointer;">
+                            <mat-card class="card">
+                                <div class="row">
+                                    <div class="col-md-10 carddetailsection">
+                                        <div class="cardtext">
+                                            <h4>Total Feedbacks</h4>
+                                        </div>
+                                        <div class="cardquantity">
+                                            <h6>{{totalFeedbacks}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 cardicondiv">
+                                        <span class="material-icons card-icon">rate_review</span>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <div class="col-md-3 cardscol" style="cursor:pointer;">
+                            <mat-card class="card">
+                                <div class="row">
+                                    <div class="col-md-10 carddetailsection">
+                                        <div class="cardtext">
+                                            <h4>Failed Orders</h4>
+                                        </div>
+                                        <div class="cardquantity">
+                                            <h6>{{totalFailed}}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 cardicondiv">
+                                        <span class="material-icons card-icon">sms_failed</span>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.card-body -->
-            <div class="card-footer p-0">
-                <ul class="nav nav-pills flex-column">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            Failed Orders
-                            <span class="float-right text-danger">
-                                <i class="fas fa-arrow-down text-sm"></i>
-                                12%</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            Completed Orders
-                            <span class="float-right text-success">
-                                <i class="fas fa-arrow-up text-sm"></i> 4%
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            Pending Orders
-                            <span class="float-right text-warning">
-                                <i class="fas fa-arrow-left text-sm"></i> 0%
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.footer -->
-        </div>
-    </div>
-    <div class="col-6 col-md-6 col-sm-6">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Task Rate Of Week</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="chart-responsive">
-                            <canvas baseChart [data]="barChartData" [options]="barChartOptions"
-                                [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="'bar'"
-                                style="width:475px; height:300px">
-                            </canvas>
+            <div class="row">
+                <div class="col-6 col-md-6 col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Task Usage</h3>
                         </div>
-                        <!-- ./chart-responsive -->
-                    </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="chart-responsive">
+                                        <canvas baseChart [type]="'pie'" [datasets]="pieChartDatasets"
+                                            [labels]="pieChartLabels" [options]="pieChartOptions"
+                                            [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                                        </canvas>
+                                    </div>
+                                    <!-- ./chart-responsive -->
+                                </div>
 
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Failed Orders
+                                        <span class="float-right text-danger">
+                                            <i class="fas fa-arrow-down text-sm"></i>
+                                            12%</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Completed Orders
+                                        <span class="float-right text-success">
+                                            <i class="fas fa-arrow-up text-sm"></i> 4%
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        Pending Orders
+                                        <span class="float-right text-warning">
+                                            <i class="fas fa-arrow-left text-sm"></i> 0%
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.footer -->
+                    </div>
                 </div>
-                <!-- /.row -->
+                <div class="col-6 col-md-6 col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Task Rate Of Week</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="chart-responsive">
+                                        <canvas baseChart [data]="barChartData" [options]="barChartOptions"
+                                            [plugins]="barChartPlugins" [legend]="barChartLegend" [type]="'bar'"
+                                            style="width:475px; height:300px">
+                                        </canvas>
+                                    </div>
+                                    <!-- ./chart-responsive -->
+                                </div>
+
+                            </div>
+                            <!-- /.row -->
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
-    </div>
-
-</div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

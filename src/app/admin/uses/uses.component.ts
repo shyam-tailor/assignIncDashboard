@@ -4,6 +4,13 @@ import { CommonServiceService } from '../../common-service.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { delay, filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-uses',
   templateUrl: './uses.component.html',
@@ -18,8 +25,12 @@ export class UsesComponent implements OnInit {
   EditUserForm: FormGroup;
   roleData: any = [];
   userId: any;
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  isLogged: any;
+  role: any;
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
-  constructor(public commonsvc: CommonServiceService, private modalService: BsModalService, private fb: FormBuilder) {
+  constructor(private observer: BreakpointObserver, public commonsvc: CommonServiceService, public router: Router, private modalService: BsModalService, private fb: FormBuilder) {
     this.initAddUser()
     this.EditUserForm = this.fb.group({
       'username': [""],
@@ -39,6 +50,49 @@ export class UsesComponent implements OnInit {
   }
   usersData: any = []
 
+  ngAfterViewInit() {
+    this.observer
+      .observe(['(max-width: 800px)'])
+      .pipe(delay(1), untilDestroyed(this))
+      .subscribe((res: any) => {
+        if (res.matches) {
+          this.sidenav.mode = 'over';
+          this.sidenav.close();
+        } else {
+          this.sidenav.mode = 'side';
+          this.sidenav.open();
+        }
+      });
+
+    this.router.events
+      .pipe(
+        untilDestroyed(this),
+        filter((e) => e instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        if (this.sidenav.mode === 'over') {
+          this.sidenav.close();
+        }
+      });
+  }
+
+  logout() {
+    localStorage.removeItem('isLogged');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userDetails')
+    this.router.navigate(['login']);
+  }
+
+  checkRole() {
+    this.role = localStorage.getItem('role')
+    if (this.role == 'employee') {
+      this.role = 'not_admin'
+    }
+    if (atob(this.role) == 'admin') {
+      this.role = 'admin'
+    }
+  }
+
   initAddUser() {
     this.UsersForm = this.fb.group({
       'username': [""],
@@ -52,7 +106,8 @@ export class UsesComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.getAllUsers()
+    this.getAllUsers();
+    this.checkRole()
   }
 
   getAllUsers() {
@@ -104,6 +159,8 @@ export class UsesComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+
 
 
 

@@ -221,7 +221,7 @@
               <th mat-header-cell *matHeaderCellDef> Accept </th>
               <td mat-cell *matCellDef="let element; let i=index">
                 <span *ngIf="element.accepted!='Not Accepted'">{{element.accepted}}</span>
-                <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn btn-primary addTaskBtn"
+                <button type="button" *ngIf="element.accepted=='Not Accepted'" class="btn other_btn addTaskBtn"
                   (click)="acceptTask(i)">Accept</button>
               </td>
             </ng-container>
@@ -236,8 +236,10 @@
               <td mat-cell *matCellDef="let element; let i=index">
 
                 <div class="row">
-                  <button type="button" class="btn btn-primary addTaskBtn"
-                    (click)="openModal(viewTaskTemplate, i,'viewTemplate')">View Task Description</button>
+                  <a>
+                    <span class="material-icons card-icon"
+                      (click)="openModal(viewTaskTemplate, i,'viewTemplate')">visibility</span>
+                  </a>
                 </div>
               </td>
             </ng-container>

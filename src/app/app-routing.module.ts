@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 const routes: Routes = [
 
   {
-    path: '',
+    path: 'login',
     component: LoginComponent,
     loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
 
